@@ -1,0 +1,71 @@
+# depslib dependency file v1.0
+1522774555 source:c:\users\morane\desktop\graph_lib_v1\graph_lib_exemple_graph\graph.cpp
+	"graph.h"
+	<fstream>
+	<vector>
+	"Sommet.h"
+	"Arete.h"
+
+1522768024 c:\users\morane\desktop\graph_lib_v1\graph_lib_exemple_graph\graph.h
+	<vector>
+	<map>
+	<string>
+	<memory>
+	"grman/grman.h"
+
+1522539042 c:\users\morane\desktop\graph_lib_v1\graph_lib_exemple_graph\grman\grman.h
+	<allegro.h>
+	<string>
+	"grman_couleurs.h"
+	"coords.h"
+	"widget.h"
+
+1509222374 c:\users\morane\desktop\graph_lib_v1\graph_lib_exemple_graph\grman\grman_couleurs.h
+
+1522575426 c:\users\morane\desktop\graph_lib_v1\graph_lib_exemple_graph\grman\coords.h
+	<cmath>
+
+1522636618 c:\users\morane\desktop\graph_lib_v1\graph_lib_exemple_graph\grman\widget.h
+	"grman.h"
+	<iostream>
+	<string>
+	<vector>
+	<algorithm>
+	<allegro.h>
+
+1522575070 source:c:\users\morane\desktop\graph_lib_v1\graph_lib_exemple_graph\grman\coords.cpp
+	"coords.h"
+
+1522775991 source:c:\users\morane\desktop\graph_lib_v1\graph_lib_exemple_graph\grman\grman.cpp
+	<cmath>
+	<unordered_map>
+	<unordered_set>
+	<utility>
+	<string>
+	<iostream>
+	<regex>
+	"grman.h"
+	<allegro.h>
+	<png.h>
+	<loadpng.h>
+	<jpgalleg.h>
+
+1522636920 source:c:\users\morane\desktop\graph_lib_v1\graph_lib_exemple_graph\grman\widget.cpp
+	"widget.h"
+
+1522767909 source:c:\users\morane\desktop\graph_lib_v1\graph_lib_exemple_graph\main.cpp
+	"grman/grman.h"
+	<iostream>
+	"graph.h"
+
+1522774460 source:c:\users\morane\desktop\graph_lib_v1\graph_lib_exemple_graph\src\sommet.cpp
+	"Sommet.h"
+
+1522774491 c:\users\morane\desktop\graph_lib_v1\graph_lib_exemple_graph\include\sommet.h
+	<iostream>
+
+1522766615 source:c:\users\morane\desktop\graph_lib_v1\graph_lib_exemple_graph\src\arete.cpp
+	"Arete.h"
+
+1522766615 c:\users\morane\desktop\graph_lib_v1\graph_lib_exemple_graph\include\arete.h
+
