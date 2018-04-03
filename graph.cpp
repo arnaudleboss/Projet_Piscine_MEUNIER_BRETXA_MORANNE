@@ -1,4 +1,8 @@
 #include "graph.h"
+#include <fstream>
+#include <vector>
+#include "Sommet.h"
+#include "Arete.h"
 
 /***************************************************
                     VERTEX
@@ -156,16 +160,71 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 /// de chargement de fichiers par exemple.
 /// Bien sûr on ne veut pas que vos graphes soient construits
 /// "à la main" dans le code comme ça.
-void Graph::make_example()
+
+void Graph::Construire_le_graphe()
 {
     m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
-    // La ligne précédente est en gros équivalente à :
-    // m_interface = new GraphInterface(50, 0, 750, 600);
 
     /// Les sommets doivent être définis avant les arcs
     // Ajouter le sommet d'indice 0 de valeur 30 en x=200 et y=100 avec l'image clown1.jpg etc...
+
+    std::vector <Sommet*> m_sommet;
+     std::vector <Arete*> m_arete;
+
+    std::ifstream fichier("HALO.txt", std::ios::in);
+    unsigned int ordre, nombre_arete, indice, s1, s2,x,y;
+    float b,poids;
+    std::string a;
+       if(fichier){
+            fichier>>ordre;
+            fichier>>nombre_arete;
+            for (unsigned int i=0;i<ordre;i++) {
+            fichier>>a, fichier>>b, fichier>>x, fichier>>y;
+            m_sommet.push_back(new Sommet(a,b,x,y));
+            }
+
+           for (unsigned int i=0;i<nombre_arete;i++) {
+            fichier>>indice, fichier>>s1, fichier>>s2, fichier>>poids;
+            //add_interfaced_edge(indice, s1, s2, poids);
+            m_arete.push_back(new Arete (indice,s1,s2,poids));
+            }
+
+       }
+         fichier.close();
+        //Affichage des especes à mettre dans le graphe
+    /*  int y=0;
+        display_choice_species(0, m_sommet[0]->GetPopulation(), 400, 0, m_sommet[0]->GetNom() + ".jpg");
+        for (unsigned int i=1;i<ordre;i++) {
+         display_choice_species(i, m_sommet[i]->GetPopulation(), 0, y, m_sommet[i]->GetNom() + ".jpg");
+          y+=100;
+        }
+    */
+        int t=0;
+        for (unsigned int i=0;i<ordre;i++) {
+         add_interfaced_vertex(i, m_sommet[i]->GetPopulation(), m_sommet[i]->GetX(), m_sommet[i]->GetY(), m_sommet[i]->GetNom() + ".bmp");
+          t+=100;
+        }
+
+        for (unsigned int i=0; i<nombre_arete;i++){
+            add_interfaced_edge(m_arete[i]->GetIndice(), m_arete[i]->GetS1(), m_arete[i]->GetS2(), m_arete[i]->GetPoids());
+        }
+
+
+
+
+
+        //m_interface->m_top_box
+/*
+        int te=17;
+        std::cin>>te;
+        if ( -1 < te && te < ordre)
+        add_interfaced_vertex(0, m_sommet[te]->GetPopulation(), 100, 200, m_sommet[te]->GetNom() + ".jpg");
+
+*/
+
+/*
     add_interfaced_vertex(0, 30.0, 200, 100, "clown1.jpg");
-   add_interfaced_vertex(1, 60.0, 400, 100, "clown2.jpg");
+    add_interfaced_vertex(1, 60.0, 400, 100, "clown2.jpg");
     add_interfaced_vertex(2,  50.0, 200, 300, "clown3.jpg");
     add_interfaced_vertex(3,  0.0, 400, 300, "clown4.jpg");
     add_interfaced_vertex(4,  100.0, 600, 300, "clown5.jpg");
@@ -175,16 +234,17 @@ void Graph::make_example()
 
     /// Les arcs doivent être définis entre des sommets qui existent !
     // AJouter l'arc d'indice 0, allant du sommet 1 au sommet 2 de poids 50 etc...
- add_interfaced_edge(0, 1, 2, 50.0);
-add_interfaced_edge(1, 0, 1, 50.0);
-  add_interfaced_edge(2, 1, 3, 75.0);
-   add_interfaced_edge(3, 4, 1, 25.0);
+    add_interfaced_edge(0, 1, 2, 50.0);
+    add_interfaced_edge(1, 0, 1, 50.0);
+    add_interfaced_edge(2, 1, 3, 75.0);
+    add_interfaced_edge(3, 4, 1, 25.0);
     add_interfaced_edge(4, 6, 3, 25.0);
     add_interfaced_edge(5, 7, 3, 25.0);
     add_interfaced_edge(6, 3, 4, 0.0);
-   add_interfaced_edge(7, 2, 0, 100.0);
+    add_interfaced_edge(7, 2, 0, 100.0);
     add_interfaced_edge(8, 5, 2, 20.0);
     add_interfaced_edge(9, 3, 7, 80.0);
+*/
 }
 
 /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
@@ -217,12 +277,34 @@ void Graph::add_interfaced_vertex(int idx, double value, int x, int y, std::stri
         std::cerr << "Error adding vertex at idx=" << idx << " already used..." << std::endl;
         throw "Error adding vertex";
     }
+
     // Création d'une interface de sommet
     VertexInterface *vi = new VertexInterface(idx, x, y, pic_name, pic_idx);
+
     // Ajout de la top box de l'interface de sommet
     m_interface->m_main_box.add_child(vi->m_top_box);
+
     // On peut ajouter directement des vertices dans la map avec la notation crochet :
     m_vertices[idx] = Vertex(value, vi);
+}
+
+/// Methode pour présentation tous les choix d'espèces à mettre dans le graphe.
+void Graph::display_choice_species(int idx, double value, int x, int y, std::string pic_name, int pic_idx )
+{
+    if ( m_vertices.find(idx)!=m_vertices.end() )
+    {
+        std::cerr << "Error adding vertex at idx=" << idx << " already used..." << std::endl;
+        throw "Error adding vertex";
+    }
+
+    // Création d'une interface de sommet
+    VertexInterface *vi = new VertexInterface(idx, x, y, pic_name, pic_idx);
+
+    // Ajout de la top box de l'interface de sommet
+    m_interface->m_main_box.add_child(vi->m_top_box);
+
+    // On peut ajouter directement des vertices dans la map avec la notation crochet :
+    //m_vertices[idx] = Vertex(value, vi);
 }
 
 /// Aide à l'ajout d'arcs interfacés

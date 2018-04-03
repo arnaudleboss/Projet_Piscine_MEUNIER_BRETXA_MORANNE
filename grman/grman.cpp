@@ -185,6 +185,7 @@ void init()
 
     show_mouse(screen);
 
+
     page=create_bitmap(SCREEN_W,SCREEN_H);
 
     rafraichir_clavier_souris();
