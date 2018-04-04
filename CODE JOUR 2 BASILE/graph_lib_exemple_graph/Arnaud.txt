@@ -1,0 +1,8 @@
+6
+8
+Hibou 23.9 400 0
+mesange 34.6 50 200
+Merle 45.8 750 200
+tourterelle 56.3 250 300
+Ver_De_Terre 78.5 450 350
+vegetaux 34.73 400 600
