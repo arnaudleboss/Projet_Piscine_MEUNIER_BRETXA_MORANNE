@@ -38,6 +38,8 @@
 			<Add library="jpgalleg" />
 			<Add library="alleg44.dll" />
 		</Linker>
+		<Unit filename="arete.cpp" />
+		<Unit filename="arete.h" />
 		<Unit filename="graph.cpp" />
 		<Unit filename="graph.h" />
 		<Unit filename="grman/coords.cpp" />
@@ -48,6 +50,10 @@
 		<Unit filename="grman/widget.cpp" />
 		<Unit filename="grman/widget.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="menu.cpp" />
+		<Unit filename="menu.h" />
+		<Unit filename="sommet.cpp" />
+		<Unit filename="sommet.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

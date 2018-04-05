@@ -1,8 +1,7 @@
 #include "graph.h"
+#include "sommet.h"
+#include "arete.h"
 #include <fstream>
-#include <vector>
-#include "Sommet.h"
-#include "Arete.h"
 
 /***************************************************
                     VERTEX
@@ -152,100 +151,102 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
     m_main_box.set_dim(908,720);
     m_main_box.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Up);
     m_main_box.set_bg_color(BLANCJAUNE);
+
+     /// On ajoute en haut à droite la boite à boutons
+    m_tool_box.add_child( m_boite_boutons );
+    m_boite_boutons.set_dim(74,80);
+    m_boite_boutons.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Up );
+    m_boite_boutons.set_bg_color(BLANC);
+    m_boite_boutons.set_moveable();
+
+    /// Puis un 1er bouton avec un texte
+    m_boite_boutons.add_child( m_bouton1 );
+    m_bouton1.set_frame(0,0,77,26);
+    m_bouton1.set_bg_color(GRISCLAIR);
+    m_bouton1.add_child(m_bouton1_label);
+    m_bouton1_label.set_message("ADD");
+
+    /// Puis un 2eme bouton avec un texte
+    m_boite_boutons.add_child( m_bouton2 );
+    m_bouton2.set_frame(0,27,77,26);
+    m_bouton2.set_bg_color(GRISCLAIR);
+    m_bouton2.add_child(m_bouton2_label);
+    m_bouton2_label.set_message("SAVE");
+
+    /// Puis un 3eme bouton avec une texte
+
+    m_boite_boutons.add_child( m_bouton3 );
+    m_bouton3.set_frame(0,54,77,26);
+    m_bouton3.set_bg_color(ROUGE);
+    m_bouton3.add_child(m_bouton3_label);
+    m_bouton3_label.set_message("DELETE");
 }
 
 
-/// Méthode spéciale qui construit un graphe arbitraire (démo)
-/// Cette méthode est à enlever et remplacer par un système
-/// de chargement de fichiers par exemple.
-/// Bien sûr on ne veut pas que vos graphes soient construits
-/// "à la main" dans le code comme ça.
+/// Méthode spéciale qui construit un graphe
 
-void Graph::Construire_le_graphe()
+void Graph::Construire_le_graphe(std::string fichier)
 {
     m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
 
     /// Les sommets doivent être définis avant les arcs
     // Ajouter le sommet d'indice 0 de valeur 30 en x=200 et y=100 avec l'image clown1.jpg etc...
+    //std::vector <Sommet*> m_sommet;
+    //std::vector <Arete*> m_arete;
 
-    std::vector <Sommet*> m_sommet;
-     std::vector <Arete*> m_arete;
-
-    std::ifstream fichier("HALO.txt", std::ios::in);
+    std::ifstream load(fichier, std::ios::in);
     unsigned int ordre, nombre_arete, indice, s1, s2,x,y;
     float b,poids;
     std::string a;
-       if(fichier){
-            fichier>>ordre;
-            fichier>>nombre_arete;
+       if(load){
+            load>>ordre;
+            load>>nombre_arete;
             for (unsigned int i=0;i<ordre;i++) {
-            fichier>>a, fichier>>b, fichier>>x, fichier>>y;
+            load>>a, load>>b, load>>x, load>>y;
             m_sommet.push_back(new Sommet(a,b,x,y));
             }
 
            for (unsigned int i=0;i<nombre_arete;i++) {
-            fichier>>indice, fichier>>s1, fichier>>s2, fichier>>poids;
+            load>>indice, load>>s1, load>>s2, load>>poids;
             //add_interfaced_edge(indice, s1, s2, poids);
-            m_arete.push_back(new Arete (indice,s1,s2,poids));
+            m_arete.push_back(new Arete(indice,s1,s2,poids));
             }
 
+
        }
-         fichier.close();
-        //Affichage des especes à mettre dans le graphe
-    /*  int y=0;
-        display_choice_species(0, m_sommet[0]->GetPopulation(), 400, 0, m_sommet[0]->GetNom() + ".jpg");
-        for (unsigned int i=1;i<ordre;i++) {
-         display_choice_species(i, m_sommet[i]->GetPopulation(), 0, y, m_sommet[i]->GetNom() + ".jpg");
-          y+=100;
-        }
-    */
-        int t=0;
+         load.close();
+
+       // Afficher les sommets et les arretes
+
         for (unsigned int i=0;i<ordre;i++) {
          add_interfaced_vertex(i, m_sommet[i]->GetPopulation(), m_sommet[i]->GetX(), m_sommet[i]->GetY(), m_sommet[i]->GetNom() + ".bmp");
-          t+=100;
         }
 
-        for (unsigned int i=0; i<nombre_arete;i++){
+          /*for (unsigned int i=0; i<nombre_arete;i++){
             add_interfaced_edge(m_arete[i]->GetIndice(), m_arete[i]->GetS1(), m_arete[i]->GetS2(), m_arete[i]->GetPoids());
+        }*/
+
+        //m_areteAff.push_back(m_arete[1]);
+        //for (unsigned int i=0; i<m_areteAff.size();i++){
+          //  add_interfaced_edge(i, m_areteAff[i]->GetS1(), m_areteAff[i]->GetS2(), m_areteAff[i]->GetPoids());
+       // }
+
+
+
+        std::ofstream save(fichier, std::ios::out);  // ouverture en écriture avec effacement du fichier ouvert
+        if(save){
+            save<<m_sommet.size() << std::endl << m_arete.size()<< std::endl;
+            for (unsigned int i=0; i<m_sommet.size(); i++){
+            save<<m_sommet[i]->GetNom()<< " " << m_sommet[i]->GetPopulation()<< " " <<m_sommet[i]->GetX()<< " " <<m_sommet[i]->GetY()<<std::endl;
+                        }
+            for (unsigned int i=0; i<m_arete.size(); i++){
+            save<<m_arete[i]->GetIndice()<< " "<< m_arete[i]->GetS1() << " "<< m_arete[i]->GetS2() << " " << m_arete[i]->GetPoids()<<std::endl;
+                        }
+        save.close();
         }
 
-
-
-
-
-        //m_interface->m_top_box
-/*
-        int te=17;
-        std::cin>>te;
-        if ( -1 < te && te < ordre)
-        add_interfaced_vertex(0, m_sommet[te]->GetPopulation(), 100, 200, m_sommet[te]->GetNom() + ".jpg");
-
-*/
-
-/*
-    add_interfaced_vertex(0, 30.0, 200, 100, "clown1.jpg");
-    add_interfaced_vertex(1, 60.0, 400, 100, "clown2.jpg");
-    add_interfaced_vertex(2,  50.0, 200, 300, "clown3.jpg");
-    add_interfaced_vertex(3,  0.0, 400, 300, "clown4.jpg");
-    add_interfaced_vertex(4,  100.0, 600, 300, "clown5.jpg");
-    add_interfaced_vertex(5,  0.0, 100, 500, "bad_clowns_xx3xx.jpg", 0);
-    add_interfaced_vertex(6,  0.0, 300, 500, "bad_clowns_xx3xx.jpg", 1);
-    add_interfaced_vertex(7,  0.0, 500, 500, "bad_clowns_xx3xx.jpg", 2);
-
-    /// Les arcs doivent être définis entre des sommets qui existent !
-    // AJouter l'arc d'indice 0, allant du sommet 1 au sommet 2 de poids 50 etc...
-    add_interfaced_edge(0, 1, 2, 50.0);
-    add_interfaced_edge(1, 0, 1, 50.0);
-    add_interfaced_edge(2, 1, 3, 75.0);
-    add_interfaced_edge(3, 4, 1, 25.0);
-    add_interfaced_edge(4, 6, 3, 25.0);
-    add_interfaced_edge(5, 7, 3, 25.0);
-    add_interfaced_edge(6, 3, 4, 0.0);
-    add_interfaced_edge(7, 2, 0, 100.0);
-    add_interfaced_edge(8, 5, 2, 20.0);
-    add_interfaced_edge(9, 3, 7, 80.0);
-*/
 }
+
 
 /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
 void Graph::update()
@@ -267,6 +268,62 @@ void Graph::update()
     for (auto &elt : m_edges)
         elt.second.post_update();
 
+         if (m_interface->m_bouton1.clicked())
+        etat_bouton = 1;
+    if(m_interface->m_bouton2.clicked())
+        etat_bouton = 2;
+    if(m_interface->m_bouton3.clicked())
+        etat_bouton = 3;
+
+    if(etat_bouton == 1)
+    {
+        std::cout<<"quelle arrete voulez vous creer ?" << std::endl;
+        std::cout<<"premier sommet : " <<std::endl;
+        std::cin >> s1;
+        std::cout<<"deuxieme sommet : "<<std::endl;
+        std::cin >> s2;
+
+        for(unsigned int i = 0; i< m_arete.size();i++)
+        {
+            if(s1 == m_arete[i]->GetS1() && s2 == m_arete[i]->GetS2())
+            {
+            m_areteAff.push_back(m_arete[i]);
+//            add_interfaced_edge(m_areteAff[i]->GetIndice(), m_areteAff[i]->GetS1, m_areteAff[i]->GetS2, m_areteAff[i]->GetPoids());
+            trouve = 1;
+
+            }
+            else if((trouve != 1) && (i == m_arete.size()-1))
+                std::cout << "pas d'arrete correspondante" << std::endl;
+
+        }
+
+        trouve = 0;
+
+
+        for(unsigned int i=0;i<m_areteAff.size();i++)
+        {
+            std::cout << m_areteAff[i]->m_s1 << std::endl << m_areteAff[i]->m_s2 << std::endl << m_areteAff[i]->m_indice << std::endl << m_areteAff[i]->m_poids << std::endl;
+        }
+
+        etat_bouton = 0;
+    }
+
+    if(etat_bouton == 3)
+    {
+        std::cout << "quel sommet voulez vous supprimer ?" << std::endl;
+        std::cin >> sommet;
+        for(unsigned int i = 0; i< m_arete.size();i++)
+        {
+            if(sommet == m_arete[i]->GetS1())
+            {
+                std::cout << "trouve !" << m_arete[i]->GetS1() << std::endl;
+
+            }
+        }
+        etat_bouton = 0;
+
+    }
+
 }
 
 /// Aide à l'ajout de sommets interfacés
@@ -277,34 +334,12 @@ void Graph::add_interfaced_vertex(int idx, double value, int x, int y, std::stri
         std::cerr << "Error adding vertex at idx=" << idx << " already used..." << std::endl;
         throw "Error adding vertex";
     }
-
     // Création d'une interface de sommet
     VertexInterface *vi = new VertexInterface(idx, x, y, pic_name, pic_idx);
-
     // Ajout de la top box de l'interface de sommet
     m_interface->m_main_box.add_child(vi->m_top_box);
-
     // On peut ajouter directement des vertices dans la map avec la notation crochet :
     m_vertices[idx] = Vertex(value, vi);
-}
-
-/// Methode pour présentation tous les choix d'espèces à mettre dans le graphe.
-void Graph::display_choice_species(int idx, double value, int x, int y, std::string pic_name, int pic_idx )
-{
-    if ( m_vertices.find(idx)!=m_vertices.end() )
-    {
-        std::cerr << "Error adding vertex at idx=" << idx << " already used..." << std::endl;
-        throw "Error adding vertex";
-    }
-
-    // Création d'une interface de sommet
-    VertexInterface *vi = new VertexInterface(idx, x, y, pic_name, pic_idx);
-
-    // Ajout de la top box de l'interface de sommet
-    m_interface->m_main_box.add_child(vi->m_top_box);
-
-    // On peut ajouter directement des vertices dans la map avec la notation crochet :
-    //m_vertices[idx] = Vertex(value, vi);
 }
 
 /// Aide à l'ajout d'arcs interfacés
