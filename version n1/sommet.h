@@ -6,15 +6,18 @@
 class Sommet
 {
     public:
-    Sommet(std::string _nom, float _population, float _x, float _y);
+    Sommet(int _indice, std::string _nom, float _population, float _x, float _y, int _delete);
     ~Sommet();
     std::string m_nom;
     float m_population,m_x, m_y;
-
+    int suppr;
+    int indice;
     std::string GetNom();
+    int GetIndice();
     float GetPopulation();
     float GetX();
     float GetY();
+    float Decre_pop ();
 };
 
 #endif // SOMMET_H_INCLUDED

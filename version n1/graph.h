@@ -305,23 +305,30 @@ class Graph
         std::shared_ptr<GraphInterface> m_interface = nullptr;
 
     public:
+        std::string fichier;
         std::vector <Sommet*> m_sommet;
         std::vector <Arete*> m_arete;
         std::vector <Arete*> m_areteAff;
         int ** adj =new int*[m_sommet.size()];
-
+        std::vector< std::vector<int> > Influence;
+        float perte_pop;
+        float i=0.0;
+        float Calcul_K (int s1);
+        float Coeff;
         /// Les constructeurs sont à compléter selon vos besoin...
         /// Ici on ne donne qu'un seul constructeur qui peut utiliser une interface
-        Graph (GraphInterface *interface=nullptr) :
-            m_interface(interface)  {  }
-
+        Graph (std::string _fichier, GraphInterface *interface=nullptr) :
+            fichier (_fichier), m_interface(interface)  {  }
+         Graph (GraphInterface *interface=nullptr) :
+             m_interface(interface)  {  }
+        float Calcul_pop(int s1);
         void add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name="", int pic_idx=0 );
         void add_interfaced_edge(int idx, int vert1, int vert2, double weight=0);
-
-       void Construire_le_graphe(std::string fichier);
-
-       int Save_Graph(std::string fichier);
-       std::vector<Arete*> Detruire_Arete(int indice);
+        int Clock();
+        void Construire_le_graphe();
+        std::vector<Sommet*> Decrementation_poids(int indice);
+        int Save_Graph();
+        std::vector<Arete*> Detruire_Arete(int indice);
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();

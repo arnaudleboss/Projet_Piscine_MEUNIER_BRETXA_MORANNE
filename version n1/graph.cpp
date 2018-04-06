@@ -2,6 +2,7 @@
 #include "sommet.h"
 #include "arete.h"
 #include <fstream>
+#include <ctime>
 
 /***************************************************
                     VERTEX
@@ -185,24 +186,30 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 
 /// Méthode spéciale qui construit un graphe
 
-void Graph::Construire_le_graphe(std::string fichier)
+void Graph::Construire_le_graphe()
 {
     m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
-
+    m_arete.clear();
+    m_sommet.clear();
+    m_areteAff.clear();
     std::ifstream load(fichier, std::ios::in); // on ouvre le fichier en mode lecture
-    unsigned int ordre, nombre_arete, nombre_arete_affiche, indice, s1, s2,x,y;
+    unsigned int ordre, nombre_arete, nombre_arete_affiche, indice,indiceSom, s1, s2,x,y;
     float b;
+    int spr;
     double poids;
-
+  //  int adjacence;
+    std::string croix;
     std::string a;
+
        if(load){
             load>>ordre; // on lit le nombre de sommet
             load>>nombre_arete; //on lit le nombre d'arete max du graphe
             load>>nombre_arete_affiche; // on lit le nombre d'arete qu'il y a affiché en fonction de notre sauvegarde précédante
+            load>>croix;
 
             for (unsigned int i=0;i<ordre;i++) {
-            load>>a, load>>b, load>>x, load>>y; // on lit les données à mettre dans un sommet
-            m_sommet.push_back(new Sommet(a,b,x,y));// on les mets dans un vecteur de pointeur de sommet
+            load>>indiceSom, load>>a, load>>b, load>>x, load>>y, load>>spr; // on lit les données à mettre dans un sommet
+            m_sommet.push_back(new Sommet(indiceSom,a,b,x,y,spr));// on les mets dans un vecteur de pointeur de sommet
             }
 
             for (unsigned int i=0;i<nombre_arete;i++) {
@@ -213,9 +220,9 @@ void Graph::Construire_le_graphe(std::string fichier)
             for (unsigned int i=0;i<nombre_arete_affiche;i++) {
             load>>indice, load>>s1, load>>s2, load>>poids;// on lit les données à mettre dans une arete
             m_areteAff.push_back(new Arete(indice,s1,s2,poids)); // on les mets dans un vecteur de pointeur d'arete
-             }
+            }
 
-            for(unsigned int i= 0; i<m_sommet.size() ; i++){
+          /*  for(unsigned int i= 0; i<m_sommet.size() ; i++){
                 adj[i]= new int[m_sommet.size()];
                 }
 
@@ -223,14 +230,34 @@ void Graph::Construire_le_graphe(std::string fichier)
                 for (unsigned int j= 0 ; j< m_sommet.size(); j++){
                     load >> adj[i][j];
                     }
+                }*/
+
+  /*         for (unsigned int i= 0; i<ordre;){
+                    std::vector <int> tampon;
+                for (unsigned int j= 0 ; j< ordre; j++){
+                    //load>>Influence[i][j];
+                    tampon.push_back(adjacence);
+                    }
+                    Influence[i][j].push_back(tampon);
                 }
+*/
             load.close(); // on ferme le fichier
         }
+
+      /*   for (unsigned int i= 0; i<ordre; i++){
+                for (unsigned int j= 0 ; j< ordre; j++){
+                std::cout<<Influence[i][j]<<"-";
+                if (j==ordre-1) std::cout<<std::endl;
+                }
+         }*/
 
        // Afficher les sommets
 
         for (unsigned int i=0;i<ordre;i++) {
+                if (m_sommet[i]->suppr == 1)
          add_interfaced_vertex(i, m_sommet[i]->GetPopulation(), m_sommet[i]->GetX(), m_sommet[i]->GetY(), m_sommet[i]->GetNom() + ".bmp");
+                else
+                    add_interfaced_vertex(i, m_sommet[i]->GetPopulation(), m_sommet[i]->GetX(), m_sommet[i]->GetY(), croix +".bmp");
         }
         // Afficher les arretes
          for (unsigned int i=0; i<nombre_arete_affiche;i++){
@@ -238,15 +265,15 @@ void Graph::Construire_le_graphe(std::string fichier)
         }
 }
 
-int Graph:: Save_Graph(std::string fichier)
+int Graph:: Save_Graph()
 {
-    unsigned int boucle=0;
+   // unsigned int boucle=0;
     std::ofstream save(fichier, std::ios::out);  // on ouvre le fichier en mode écriture avec effacement du fichier ouvert
         if(save){
-            save<<m_sommet.size()<< std::endl <<m_arete.size()<< std::endl<< m_areteAff.size()<< std::endl; // on enregistre les donnees du graphe
+            save<<m_sommet.size()<< std::endl <<m_arete.size()<< std::endl<< m_areteAff.size()<< std::endl<< "croix"<< std::endl; // on enregistre les donnees du graphe
 
             for (unsigned int i=0; i<m_sommet.size(); i++){// on met les sommets dans le fichier : nom population x y
-            save<<m_sommet[i]->GetNom()<< " " << m_sommet[i]->GetPopulation()<< " " <<m_sommet[i]->GetX()<< " " <<m_sommet[i]->GetY()<<std::endl;
+            save<<m_sommet[i]->GetIndice()<< " " <<m_sommet[i]->GetNom()<< " " << m_sommet[i]->GetPopulation()<< " " <<m_sommet[i]->GetX()<< " " <<m_sommet[i]->GetY()<< " " << m_sommet[i]->suppr<<std::endl;
                         }
             for (unsigned int i=0; i<m_arete.size(); i++){ // on met les aretes dans le fichier : indice sommets entrant sommet sortant poids de l'arete
             save<<m_arete[i]->GetIndice()<< " "<< m_arete[i]->GetS1() << " "<< m_arete[i]->GetS2() << " " << m_arete[i]->GetPoids()<<std::endl;
@@ -256,7 +283,7 @@ int Graph:: Save_Graph(std::string fichier)
             save<<i<< " "<< m_areteAff[i]->GetS1() << " "<< m_areteAff[i]->GetS2() << " " << m_areteAff[i]->GetPoids()<<std::endl;
                         }
 
-           while (boucle < m_sommet.size()){
+          /* while (boucle < m_sommet.size()){
                 for (unsigned int j= 0 ; j< m_sommet.size() ; j++){
                     save << adj[boucle][j] << " "; // on ajoute les relations d'adjacenge nouvelle
                     if (j==m_sommet.size()-1){
@@ -264,7 +291,7 @@ int Graph:: Save_Graph(std::string fichier)
                         boucle++;// on passe à la ligne suivante
                         }
                     }
-                }
+                }*/
         save.close(); // on ferme le fichier
         }
         return 1;// on retourne 1 pour savoir si le graph a bien ete appele
@@ -300,6 +327,8 @@ void Graph::update()
        int save=0, indice;
         float poids=0.0 ;
 
+        std::string nom;
+
         switch (etat_bouton)
         {
 
@@ -312,18 +341,15 @@ void Graph::update()
 
         for(unsigned int i=0; i< m_arete.size();i++)
         {
-            if(s1 == m_arete[i]->GetS1() && s2 == m_arete[i]->GetS2() && adj[s1][s2]!=1){
+            if(s1 == m_arete[i]->GetS1() && s2 == m_arete[i]->GetS2()){
             poids=m_arete[i]->GetPoids();
             indice=m_areteAff.size()+1;
             m_areteAff.push_back(new Arete(indice-1, s1, s2, poids));
             add_interfaced_edge(indice-1, s1, s2, poids);
-            adj[s1][s2]=1;
             trouve = 1;
             }
-            else if((trouve != 1) && (i == m_arete.size()-1))
+            else if((trouve != 1) && (i== m_arete.size()-1))
                 std::cout << "pas d'arrete correspondante" << std::endl;
-            else if (adj[s1][s2]==1)
-                 std::cout << "L'arete a deja ete ajoute a votre graphe" << std::endl;
 
         }
         trouve=0;
@@ -334,7 +360,7 @@ void Graph::update()
         break;
 
         case 2:
-        save=Save_Graph("Air.txt");
+        save=Save_Graph();
             if (save==1) std::cout<<"Le graphe a ete sauvegarde" << std::endl;
                 else std::cout<<"Probleme de sauvegarde" << std::endl;
         etat_bouton = 0;
@@ -355,10 +381,78 @@ void Graph::update()
                         Detruire_Arete(indice);
                         }
             }
+
+       /* std::cout << "Rentrez votre sommet" << std::endl;
+        std::cin >> sommet;
+
+        if (m_sommet[sommet]->suppr==0)
+            m_sommet[sommet]->suppr=1;
+        else
+            m_sommet[sommet]->suppr=0;
+        pop=m_sommet[sommet]->GetPopulation();
+        x=m_sommet[sommet]->GetX();
+        y=m_sommet[sommet]->GetY();
+        nom=m_sommet[sommet]->GetNom();
+
+        if(m_sommet[sommet]->suppr==1)
+            add_interfaced_vertex(sommet, pop, x, y, nom + ".bmp");
+        else
+            add_interfaced_vertex(sommet, pop, x, y, "croix.bmp"); */
+
         etat_bouton = 0;
         break;
         }
+
+    Clock();
+
 }
+
+int Graph::Clock()
+{
+    i=i+0.02;
+
+    if (i> 1){
+        std::cout<<" - ";
+        i=0;
+        //Decrementation_poids(i);
+     Coeff=m_sommet[0]->GetPopulation();
+     std::cout <<Coeff<<"-";
+
+    }
+       // getchar();
+}
+
+std::vector<Sommet*> Graph :: Decrementation_poids(int indice){
+    for (auto elem : m_sommet){
+        elem->Decre_pop();
+    }
+    return m_sommet;
+}
+
+float Graph:: Calcul_pop(int s1)
+{
+    int Coeff=Calcul_K(s1);
+    int N=m_sommet[s1]->GetPopulation()+(m_sommet[s1]->GetPopulation()*(1-(m_sommet[s1]->GetPopulation()/Coeff)));
+    return N;
+}
+
+float Graph::Calcul_K (int s1){
+    float k=0;
+std::vector<Arete*> test;
+  for (auto elem : m_areteAff){
+     if (elem->GetS1()== s1)
+        test.push_back(elem);
+     }
+
+    for(unsigned int i=0;i<test.size();i++){
+                //std::cout << test[i]->m_indice << "-"<< test[i]->m_s1 << "-" << test[i]->m_s2 << "-" << test[i]->m_poids << std::endl;
+
+             k+=(m_sommet[test[i]->m_s2]->GetPopulation())*test[i]->m_poids;
+            }
+    return k;
+}
+
+
 
 std::vector<Arete*> Graph :: Detruire_Arete(int indice)
 {

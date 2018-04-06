@@ -299,18 +299,19 @@
 	<loadpng.h>
 	<jpgalleg.h>
 
-1522893074 source:c:\users\morane\desktop\version n1\arete.cpp
+1523014285 source:c:\users\morane\desktop\version n1\arete.cpp
 	"Arete.h"
 
-1522893074 c:\users\morane\desktop\version n1\arete.h
+1523014590 c:\users\morane\desktop\version n1\arete.h
 
-1522949566 source:c:\users\morane\desktop\version n1\graph.cpp
+1523026660 source:c:\users\morane\desktop\version n1\graph.cpp
 	"graph.h"
 	"sommet.h"
 	"arete.h"
 	<fstream>
+	<ctime>
 
-1522937908 c:\users\morane\desktop\version n1\graph.h
+1523026606 c:\users\morane\desktop\version n1\graph.h
 	"sommet.h"
 	"arete.h"
 	<vector>
@@ -319,7 +320,7 @@
 	<memory>
 	"grman/grman.h"
 
-1522893076 c:\users\morane\desktop\version n1\sommet.h
+1523022598 c:\users\morane\desktop\version n1\sommet.h
 	<iostream>
 
 1522893084 c:\users\morane\desktop\version n1\grman\grman.h
@@ -362,7 +363,7 @@
 1522893084 source:c:\users\morane\desktop\version n1\grman\widget.cpp
 	"widget.h"
 
-1522893076 source:c:\users\morane\desktop\version n1\main.cpp
+1523006415 source:c:\users\morane\desktop\version n1\main.cpp
 	"grman/grman.h"
 	<iostream>
 	"menu.h"
@@ -373,12 +374,12 @@
 	"grman/grman.h"
 	<iostream>
 
-1522893076 source:c:\users\morane\desktop\version n1\menu.cpp
+1523006493 source:c:\users\morane\desktop\version n1\menu.cpp
 	"menu.h"
 	"graph.h"
 	"grman/grman.h"
 	<iostream>
 
-1522893076 source:c:\users\morane\desktop\version n1\sommet.cpp
+1523023356 source:c:\users\morane\desktop\version n1\sommet.cpp
 	"Sommet.h"
 
