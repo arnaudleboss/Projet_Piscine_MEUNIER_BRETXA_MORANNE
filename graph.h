@@ -265,13 +265,19 @@ class GraphInterface
         /// Dans cette boite seront ajoutés des boutons de contrôle etc...
         grman::WidgetBox m_tool_box;
 
-        grman::WidgetBox m_boite_boutons; // Sera la boite à boutons en haut à droite
+         grman::WidgetBox m_boite_boutons; // Sera la boite à boutons en haut à droite
         grman::WidgetButton m_bouton1;  // Sera le bouton avec le texte ADD
         grman::WidgetButton m_bouton2;  // Sera le bouton avec le texte SAVE
         grman::WidgetButton m_bouton3;  // Sera le bouton avec le texte DELETE
-        grman::WidgetText m_bouton1_label;   // Le texte ADD
-        grman::WidgetText m_bouton2_label;   // Le texte Save
-        grman::WidgetText m_bouton3_label;   // Le texte DELETE
+        grman::WidgetButton m_bouton4;  // Sera le bouton avec le texte SEARCH CC
+        grman::WidgetButton m_bouton5;  // Sera le bouton avec le texte SIMULATION
+        grman::WidgetButton m_bouton6;  // Sera le bouton avec le texte K-CONNEX
+        grman::WidgetText m_bouton1_label;  // Le texte ADD
+        grman::WidgetText m_bouton2_label;  // Le texte Save
+        grman::WidgetText m_bouton3_label;  // Le texte DELETE
+        grman::WidgetText m_bouton4_label;  // Le texte SEARCH CC
+        grman::WidgetText m_bouton5_label;  // Le texte SIMULATION
+        grman::WidgetText m_bouton6_label;  // Le texte K-CONNEX
 
         // A compléter éventuellement par des widgets de décoration ou
         // d'édition (boutons ajouter/enlever ...)
@@ -304,26 +310,32 @@ class Graph
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<GraphInterface> m_interface = nullptr;
 
-
-
     public:
-
+        std::string fichier;
         std::vector <Sommet*> m_sommet;
         std::vector <Arete*> m_arete;
         std::vector <Arete*> m_areteAff;
+        int ** adj =new int*[m_sommet.size()];
+        std::vector< std::vector<int> > Influence;
 
         /// Les constructeurs sont à compléter selon vos besoin...
         /// Ici on ne donne qu'un seul constructeur qui peut utiliser une interface
-        Graph (GraphInterface *interface=nullptr) :
-            m_interface(interface)  {  }
+        Graph (std::string _fichier, GraphInterface *interface=nullptr) :
+            fichier (_fichier), m_interface(interface)  {  }
+         Graph (GraphInterface *interface=nullptr) :
+             m_interface(interface)  {  }
 
         void add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name="", int pic_idx=0 );
         void add_interfaced_edge(int idx, int vert1, int vert2, double weight=0);
 
-       void Construire_le_graphe(std::string fichier);
+       void Construire_le_graphe();
+
+       int Save_Graph();
+       std::vector<Arete*> Detruire_Arete(int indice);
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();
+        void test_remove_edge(int eidx);
 };
 
 

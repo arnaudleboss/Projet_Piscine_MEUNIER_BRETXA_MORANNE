@@ -45,7 +45,7 @@ void Menu::AfficherMenu()
 int Menu::ChoixMenu()
 {
     int i =0;
-    Graph g;
+   Graph g;
 
     if(mouse_b&1)
     {

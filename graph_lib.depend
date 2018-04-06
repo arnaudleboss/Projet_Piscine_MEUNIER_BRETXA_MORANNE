@@ -299,18 +299,18 @@
 	<loadpng.h>
 	<jpgalleg.h>
 
-1522888148 source:c:\users\arnau\desktop\piscine\arete.cpp
+1522893074 source:c:\users\morane\desktop\version n1\arete.cpp
 	"Arete.h"
 
-1522888148 c:\users\arnau\desktop\piscine\arete.h
+1522893074 c:\users\morane\desktop\version n1\arete.h
 
-1522925394 source:c:\users\arnau\desktop\piscine\graph.cpp
+1523006629 source:c:\users\morane\desktop\version n1\graph.cpp
 	"graph.h"
 	"sommet.h"
 	"arete.h"
 	<fstream>
 
-1522924698 c:\users\arnau\desktop\piscine\graph.h
+1523006639 c:\users\morane\desktop\version n1\graph.h
 	"sommet.h"
 	"arete.h"
 	<vector>
@@ -319,22 +319,22 @@
 	<memory>
 	"grman/grman.h"
 
-1522888150 c:\users\arnau\desktop\piscine\sommet.h
+1522893076 c:\users\morane\desktop\version n1\sommet.h
 	<iostream>
 
-1522888162 c:\users\arnau\desktop\piscine\grman\grman.h
+1522893084 c:\users\morane\desktop\version n1\grman\grman.h
 	<allegro.h>
 	<string>
 	"grman_couleurs.h"
 	"coords.h"
 	"widget.h"
 
-1522888162 c:\users\arnau\desktop\piscine\grman\grman_couleurs.h
+1522893084 c:\users\morane\desktop\version n1\grman\grman_couleurs.h
 
-1522888160 c:\users\arnau\desktop\piscine\grman\coords.h
+1522893084 c:\users\morane\desktop\version n1\grman\coords.h
 	<cmath>
 
-1522888162 c:\users\arnau\desktop\piscine\grman\widget.h
+1522893084 c:\users\morane\desktop\version n1\grman\widget.h
 	"grman.h"
 	<iostream>
 	<string>
@@ -342,10 +342,10 @@
 	<algorithm>
 	<allegro.h>
 
-1522888160 source:c:\users\arnau\desktop\piscine\grman\coords.cpp
+1522893084 source:c:\users\morane\desktop\version n1\grman\coords.cpp
 	"coords.h"
 
-1522920818 source:c:\users\arnau\desktop\piscine\grman\grman.cpp
+1522893084 source:c:\users\morane\desktop\version n1\grman\grman.cpp
 	<cmath>
 	<unordered_map>
 	<unordered_set>
@@ -359,26 +359,192 @@
 	<loadpng.h>
 	<jpgalleg.h>
 
-1522888162 source:c:\users\arnau\desktop\piscine\grman\widget.cpp
+1522893084 source:c:\users\morane\desktop\version n1\grman\widget.cpp
 	"widget.h"
 
-1522888148 source:c:\users\arnau\desktop\piscine\main.cpp
+1523006415 source:c:\users\morane\desktop\version n1\main.cpp
 	"grman/grman.h"
 	<iostream>
 	"menu.h"
 
-1522888148 c:\users\arnau\desktop\piscine\menu.h
+1522893076 c:\users\morane\desktop\version n1\menu.h
 	"allegro.h"
 	"Graph.h"
 	"grman/grman.h"
 	<iostream>
 
-1522888148 source:c:\users\arnau\desktop\piscine\menu.cpp
+1523006493 source:c:\users\morane\desktop\version n1\menu.cpp
 	"menu.h"
 	"graph.h"
 	"grman/grman.h"
 	<iostream>
 
-1522888150 source:c:\users\arnau\desktop\piscine\sommet.cpp
+1522893076 source:c:\users\morane\desktop\version n1\sommet.cpp
+	"Sommet.h"
+
+1522974514 source:c:\users\arnau\desktop\code vendredi 10_28\version n1\arete.cpp
+	"Arete.h"
+
+1522974512 c:\users\arnau\desktop\code vendredi 10_28\version n1\arete.h
+
+1523008547 source:c:\users\arnau\desktop\code vendredi 10_28\version n1\graph.cpp
+	"graph.h"
+	"sommet.h"
+	"arete.h"
+	<fstream>
+
+1523007726 c:\users\arnau\desktop\code vendredi 10_28\version n1\graph.h
+	"sommet.h"
+	"arete.h"
+	<vector>
+	<map>
+	<string>
+	<memory>
+	"grman/grman.h"
+
+1522974512 c:\users\arnau\desktop\code vendredi 10_28\version n1\sommet.h
+	<iostream>
+
+1522974518 c:\users\arnau\desktop\code vendredi 10_28\version n1\grman\grman.h
+	<allegro.h>
+	<string>
+	"grman_couleurs.h"
+	"coords.h"
+	"widget.h"
+
+1522974518 c:\users\arnau\desktop\code vendredi 10_28\version n1\grman\grman_couleurs.h
+
+1522974516 c:\users\arnau\desktop\code vendredi 10_28\version n1\grman\coords.h
+	<cmath>
+
+1522974518 c:\users\arnau\desktop\code vendredi 10_28\version n1\grman\widget.h
+	"grman.h"
+	<iostream>
+	<string>
+	<vector>
+	<algorithm>
+	<allegro.h>
+
+1522974518 source:c:\users\arnau\desktop\code vendredi 10_28\version n1\grman\coords.cpp
+	"coords.h"
+
+1522974516 source:c:\users\arnau\desktop\code vendredi 10_28\version n1\grman\grman.cpp
+	<cmath>
+	<unordered_map>
+	<unordered_set>
+	<utility>
+	<string>
+	<iostream>
+	<regex>
+	"grman.h"
+	<allegro.h>
+	<png.h>
+	<loadpng.h>
+	<jpgalleg.h>
+
+1522974516 source:c:\users\arnau\desktop\code vendredi 10_28\version n1\grman\widget.cpp
+	"widget.h"
+
+1522974516 source:c:\users\arnau\desktop\code vendredi 10_28\version n1\main.cpp
+	"grman/grman.h"
+	<iostream>
+	"menu.h"
+
+1522974516 c:\users\arnau\desktop\code vendredi 10_28\version n1\menu.h
+	"allegro.h"
+	"Graph.h"
+	"grman/grman.h"
+	<iostream>
+
+1522974512 source:c:\users\arnau\desktop\code vendredi 10_28\version n1\menu.cpp
+	"menu.h"
+	"graph.h"
+	"grman/grman.h"
+	<iostream>
+
+1522974512 source:c:\users\arnau\desktop\code vendredi 10_28\version n1\sommet.cpp
+	"Sommet.h"
+
+1522974514 source:c:\users\arnau\desktop\code vendredi 10.58\version n1\arete.cpp
+	"Arete.h"
+
+1522974512 c:\users\arnau\desktop\code vendredi 10.58\version n1\arete.h
+
+1523008547 source:c:\users\arnau\desktop\code vendredi 10.58\version n1\graph.cpp
+	"graph.h"
+	"sommet.h"
+	"arete.h"
+	<fstream>
+
+1523007726 c:\users\arnau\desktop\code vendredi 10.58\version n1\graph.h
+	"sommet.h"
+	"arete.h"
+	<vector>
+	<map>
+	<string>
+	<memory>
+	"grman/grman.h"
+
+1522974512 c:\users\arnau\desktop\code vendredi 10.58\version n1\sommet.h
+	<iostream>
+
+1522974518 c:\users\arnau\desktop\code vendredi 10.58\version n1\grman\grman.h
+	<allegro.h>
+	<string>
+	"grman_couleurs.h"
+	"coords.h"
+	"widget.h"
+
+1522974518 c:\users\arnau\desktop\code vendredi 10.58\version n1\grman\grman_couleurs.h
+
+1522974516 c:\users\arnau\desktop\code vendredi 10.58\version n1\grman\coords.h
+	<cmath>
+
+1522974518 c:\users\arnau\desktop\code vendredi 10.58\version n1\grman\widget.h
+	"grman.h"
+	<iostream>
+	<string>
+	<vector>
+	<algorithm>
+	<allegro.h>
+
+1522974518 source:c:\users\arnau\desktop\code vendredi 10.58\version n1\grman\coords.cpp
+	"coords.h"
+
+1522974516 source:c:\users\arnau\desktop\code vendredi 10.58\version n1\grman\grman.cpp
+	<cmath>
+	<unordered_map>
+	<unordered_set>
+	<utility>
+	<string>
+	<iostream>
+	<regex>
+	"grman.h"
+	<allegro.h>
+	<png.h>
+	<loadpng.h>
+	<jpgalleg.h>
+
+1522974516 source:c:\users\arnau\desktop\code vendredi 10.58\version n1\grman\widget.cpp
+	"widget.h"
+
+1522974516 source:c:\users\arnau\desktop\code vendredi 10.58\version n1\main.cpp
+	"grman/grman.h"
+	<iostream>
+	"menu.h"
+
+1522974516 c:\users\arnau\desktop\code vendredi 10.58\version n1\menu.h
+	"allegro.h"
+	"Graph.h"
+	"grman/grman.h"
+	<iostream>
+
+1522974512 source:c:\users\arnau\desktop\code vendredi 10.58\version n1\menu.cpp
+	"menu.h"
+	"graph.h"
+	"grman/grman.h"
+	<iostream>
+
+1522974512 source:c:\users\arnau\desktop\code vendredi 10.58\version n1\sommet.cpp
 	"Sommet.h"
 
