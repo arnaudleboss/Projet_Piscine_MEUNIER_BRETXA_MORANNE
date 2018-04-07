@@ -1,5 +1,5 @@
 #include "widget.h"
-
+#include "../arete.h"
 
 namespace grman
 {
@@ -7,8 +7,9 @@ namespace grman
 void rect_around(BITMAP *bmp, int color, int thickness=1, int receding=0)
 {
     for (int i=0+receding; i<thickness+receding; ++i)
-        rect(bmp, i, i, bmp->w-1-i, bmp->h-1-i, color);
+        rect(bmp, i, i, bmp->w-1-i, bmp->h-1-i, NOIR);
 }
+
 
 
 /***************************************************
@@ -264,7 +265,22 @@ void WidgetVSlider::interact_over()
     }
 }
 
+void WidgetVSlider::Coloration(int etat)
+{
+    if(etat == 0)
+    {
+        m_rail_color = VERT;
+    }
+    if(etat == 1)
+    {
+        m_rail_color = JAUNE;
+    }
+    if(etat == 2)
+    {
+        m_rail_color = ROUGE;
+    }
 
+}
 
 /***************************************************
                     IMAGE
@@ -379,6 +395,7 @@ void WidgetEdge::draw()
         if (itm.m_type == ArrowItemType::Bullet)
             circlefill(page, head.x, head.y, itm.m_size/3, m_color);
 
+
         /// Cas pointe de flèche ou triangle
         else
         {
@@ -407,3 +424,7 @@ void WidgetEdge::draw()
 
 
 }
+/*float WidgetEdge::GetWeight(Arete a)
+{
+    return a.GetPoids();
+}*/

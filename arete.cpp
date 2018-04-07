@@ -25,3 +25,8 @@ int Arete::GetS2(){
 float Arete::GetPoids(){
     return  m_poids;
 }
+
+float Arete::Decre_poids(){
+     m_poids--;
+     return m_poids;
+}

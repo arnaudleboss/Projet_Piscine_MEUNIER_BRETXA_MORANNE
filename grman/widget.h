@@ -2,12 +2,11 @@
 #define WIDGET_H_INCLUDED
 
 #include "grman.h"
-
+#include "../arete.h"
 #include <iostream>
 #include <string>
 #include <vector>
 #include <algorithm>
-
 #include <allegro.h>
 
 namespace grman
@@ -287,8 +286,8 @@ class WidgetVSlider : public Widget
         double m_handle_ratio = .5;
         double m_rail_ratio = .3;
         double m_specific_padding = 2;
+        int m_rail_color;
 
-        int m_rail_color = GRIS;
         int m_handle_color = GRISSOMBRE;
 
         int get_hhandle() { return std::max(1., m_handle_ratio * m_view->w/2); }
@@ -309,6 +308,7 @@ class WidgetVSlider : public Widget
         void limit_to_range() { if (m_value<m_min) m_value=m_min; if (m_value>m_max) m_value=m_max; }
         void set_value(double value) { m_value = value; m_value =get_value(); limit_to_range(); }
         void set_range(double min, double max, bool integer=false) { m_min = min; m_max = max; m_integer = integer; limit_to_range(); }
+        void Coloration(int etat);
 };
 
 
@@ -442,6 +442,8 @@ class WidgetEdge : public Widget
 
         void set_children_position(double rel_pos) { m_children_position = rel_pos; }
         void set_children_lateral(double abs_lat) { m_children_lateral = abs_lat; }
+       // float GetWeight(Arete a);
+               void set_thickness(float _x) { m_thickness = _x/20; }
 };
 
 

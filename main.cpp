@@ -23,12 +23,12 @@ int main()
 
 
     /// -----------Affichage en fonction du graphe choisi---------------------
-   // Graph g;
 bool sortie = false ;
 
 while (sortie==false)
 {
         i= M.ChoixMenu();
+         int temps=0;
     //Graph g;
     ///Si on clique sur Savane
         if( i==1)
@@ -37,11 +37,15 @@ while (sortie==false)
         int j = 1;
         sortie = false ;
 
+
         while(j!=2 )
         {
             /// Il faut appeler les méthodes d'update des objets qui comportent des widgets
             g.update();
-
+            if(key[KEY_SPACE]){
+                temps=g.Clock();
+                //g.Afficher_temps(temps);
+            }
             /// Mise à jour générale (clavier/souris/buffer etc...)
             grman::mettre_a_jour();
 
@@ -85,7 +89,9 @@ while (sortie==false)
         {
             /// Il faut appeler les méthodes d'update des objets qui comportent des widgets
             g.update();
-
+          if(key[KEY_SPACE]){
+                g.Clock();
+            }
             /// Mise à jour générale (clavier/souris/buffer etc...)
             grman::mettre_a_jour();
 
@@ -119,6 +125,9 @@ while (sortie==false)
         while( j!= 2){
             /// Il faut appeler les méthodes d'update des objets qui comportent des widgets
             g.update();
+            if(key[KEY_SPACE]){
+                g.Clock();
+            }
             /// Mise à jour générale (clavier/souris/buffer etc...)
             grman::mettre_a_jour();
             if (key[KEY_RIGHT]){

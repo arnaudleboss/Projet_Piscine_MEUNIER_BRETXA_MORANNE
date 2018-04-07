@@ -106,6 +106,13 @@ EdgeInterface::EdgeInterface(Vertex& from, Vertex& to)
 }
 
 
+
+
+void Edge::set_thickness(float _t)
+{
+    m_interface->m_top_edge.set_thickness(_t);
+}
+
 /// Gestion du Edge avant l'appel à l'interface
 void Edge::pre_update()
 {
@@ -154,7 +161,7 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 
     /// On ajoute en haut à droite la boite à boutons
     m_tool_box.add_child( m_boite_boutons );
-    m_boite_boutons.set_dim(74,80);
+    m_boite_boutons.set_dim(74,189);
     m_boite_boutons.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Up );
     m_boite_boutons.set_bg_color(BLANC);
     m_boite_boutons.set_moveable();
@@ -179,15 +186,15 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
     m_bouton3.set_frame(0,54,77,26);
     m_bouton3.set_bg_color(ROUGE);
     m_bouton3.add_child(m_bouton3_label);
-    m_bouton3_label.set_message("DELETE");
+    m_bouton3_label.set_message("DELETE_A");
 
-    /// Puis un 4eme bouton avec un texte
+    /// Puis un 4eme bouton avec une texte
 
     m_boite_boutons.add_child( m_bouton4 );
     m_bouton4.set_frame(0,81,77,26);
-    m_bouton4.set_bg_color(GRISCLAIR);
+    m_bouton4.set_bg_color(ROUGE);
     m_bouton4.add_child(m_bouton4_label);
-    m_bouton4_label.set_message("Search CC");
+    m_bouton4_label.set_message("DELETE_S");
 
     /// Puis un 5eme bouton avec un texte
 
@@ -195,15 +202,32 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
     m_bouton5.set_frame(0,108,77,26);
     m_bouton5.set_bg_color(GRISCLAIR);
     m_bouton5.add_child(m_bouton5_label);
-    m_bouton5_label.set_message("Simulation");
+    m_bouton5_label.set_message("Search CC");
 
     /// Puis un 6eme bouton avec un texte
 
-    m_boite_boutons.add_child( m_bouton6);
+    m_boite_boutons.add_child( m_bouton6 );
     m_bouton6.set_frame(0,135,77,26);
     m_bouton6.set_bg_color(GRISCLAIR);
     m_bouton6.add_child(m_bouton6_label);
-    m_bouton6_label.set_message("K-Connex");
+    m_bouton6_label.set_message("Simulation");
+
+    /// Puis un 7eme bouton avec un texte
+
+    m_boite_boutons.add_child( m_bouton7);
+    m_bouton7.set_frame(0,162,77,26);
+    m_bouton7.set_bg_color(GRISCLAIR);
+    m_bouton7.add_child(m_bouton7_label);
+    m_bouton7_label.set_message("K-Connex");
+}
+
+
+void Graph::set_thickness()
+{
+    for(auto& elem : m_edges)
+    {
+        elem.second.set_thickness(elem.second.m_weight);
+    }
 }
 
 
@@ -216,20 +240,31 @@ void Graph::Construire_le_graphe()
     m_sommet.clear();
     m_areteAff.clear();
     std::ifstream load(fichier, std::ios::in); // on ouvre le fichier en mode lecture
-    unsigned int ordre, nombre_arete, nombre_arete_affiche, indice, s1, s2,x,y;
+    unsigned int ordre, nombre_arete, nombre_arete_affiche, indice,indiceSom, s1, s2,x,y;
     float b;
+    int spr;
     double poids;
-    int adjacence;
-
+  //  int adjacence;
+    std::string croix;
     std::string a;
+
        if(load){
+
+
+            //Ajouter un fond d'écran  derrière les graphes
+            m_interface->m_main_box.add_child(m_interface->m_fond);
+
+            m_interface->m_fond.set_pic_name("texture.jpg");
+
+            //m_interface->m_slider_value.set_color(VIOLETCLAIR);
             load>>ordre; // on lit le nombre de sommet
             load>>nombre_arete; //on lit le nombre d'arete max du graphe
             load>>nombre_arete_affiche; // on lit le nombre d'arete qu'il y a affiché en fonction de notre sauvegarde précédante
+            load>>croix;
 
             for (unsigned int i=0;i<ordre;i++) {
-            load>>a, load>>b, load>>x, load>>y; // on lit les données à mettre dans un sommet
-            m_sommet.push_back(new Sommet(a,b,x,y));// on les mets dans un vecteur de pointeur de sommet
+            load>>indiceSom, load>>a, load>>b, load>>x, load>>y, load>>spr; // on lit les données à mettre dans un sommet
+            m_sommet.push_back(new Sommet(indiceSom,a,b,x,y,spr));// on les mets dans un vecteur de pointeur de sommet
             }
 
             for (unsigned int i=0;i<nombre_arete;i++) {
@@ -240,7 +275,7 @@ void Graph::Construire_le_graphe()
             for (unsigned int i=0;i<nombre_arete_affiche;i++) {
             load>>indice, load>>s1, load>>s2, load>>poids;// on lit les données à mettre dans une arete
             m_areteAff.push_back(new Arete(indice,s1,s2,poids)); // on les mets dans un vecteur de pointeur d'arete
-             }
+            }
 
           /*  for(unsigned int i= 0; i<m_sommet.size() ; i++){
                 adj[i]= new int[m_sommet.size()];
@@ -252,15 +287,15 @@ void Graph::Construire_le_graphe()
                     }
                 }*/
 
-       /*    for (unsigned int i= 0; i<ordre;){
+  /*         for (unsigned int i= 0; i<ordre;){
                     std::vector <int> tampon;
                 for (unsigned int j= 0 ; j< ordre; j++){
-                    load>>Influence[i][j];
-                    //tampon.push_back(adjacence);
+                    //load>>Influence[i][j];
+                    tampon.push_back(adjacence);
                     }
-                    //Influence.push_back(tampon);
-                }*/
-
+                    Influence[i][j].push_back(tampon);
+                }
+*/
             load.close(); // on ferme le fichier
         }
 
@@ -274,7 +309,10 @@ void Graph::Construire_le_graphe()
        // Afficher les sommets
 
         for (unsigned int i=0;i<ordre;i++) {
+                if (m_sommet[i]->suppr == 1)
          add_interfaced_vertex(i, m_sommet[i]->GetPopulation(), m_sommet[i]->GetX(), m_sommet[i]->GetY(), m_sommet[i]->GetNom() + ".bmp");
+                else
+                    add_interfaced_vertex(i, m_sommet[i]->GetPopulation(), m_sommet[i]->GetX(), m_sommet[i]->GetY(), croix +".bmp");
         }
         // Afficher les arretes
          for (unsigned int i=0; i<nombre_arete_affiche;i++){
@@ -284,13 +322,13 @@ void Graph::Construire_le_graphe()
 
 int Graph:: Save_Graph()
 {
-    unsigned int boucle=0;
+   // unsigned int boucle=0;
     std::ofstream save(fichier, std::ios::out);  // on ouvre le fichier en mode écriture avec effacement du fichier ouvert
         if(save){
-            save<<m_sommet.size()<< std::endl <<m_arete.size()<< std::endl<< m_areteAff.size()<< std::endl; // on enregistre les donnees du graphe
+            save<<m_sommet.size()<< std::endl <<m_arete.size()<< std::endl<< m_areteAff.size()<< std::endl<< "croix"<< std::endl; // on enregistre les donnees du graphe
 
             for (unsigned int i=0; i<m_sommet.size(); i++){// on met les sommets dans le fichier : nom population x y
-            save<<m_sommet[i]->GetNom()<< " " << m_sommet[i]->GetPopulation()<< " " <<m_sommet[i]->GetX()<< " " <<m_sommet[i]->GetY()<<std::endl;
+            save<<m_sommet[i]->GetIndice()<< " " <<m_sommet[i]->GetNom()<< " " << m_sommet[i]->GetPopulation()<< " " <<m_sommet[i]->GetX()<< " " <<m_sommet[i]->GetY()<< " " << m_sommet[i]->suppr<<std::endl;
                         }
             for (unsigned int i=0; i<m_arete.size(); i++){ // on met les aretes dans le fichier : indice sommets entrant sommet sortant poids de l'arete
             save<<m_arete[i]->GetIndice()<< " "<< m_arete[i]->GetS1() << " "<< m_arete[i]->GetS2() << " " << m_arete[i]->GetPoids()<<std::endl;
@@ -328,11 +366,14 @@ void Graph::update()
 
     m_interface->m_top_box.update();
 
+
     for (auto &elt : m_vertices)
         elt.second.post_update();
 
     for (auto &elt : m_edges)
         elt.second.post_update();
+
+        this->set_thickness();
 
     if (m_interface->m_bouton1.clicked())
         etat_bouton = 1;
@@ -340,9 +381,19 @@ void Graph::update()
         etat_bouton = 2;
     if(m_interface->m_bouton3.clicked())
         etat_bouton = 3;
+    if(m_interface->m_bouton4.clicked())
+        etat_bouton = 4;
+    if(m_interface->m_bouton5.clicked())
+        etat_bouton = 5;
+    if(m_interface->m_bouton6.clicked())
+        etat_bouton = 6;
+    if(m_interface->m_bouton7.clicked())
+        etat_bouton = 7;
 
        int save=0, indice;
         float poids=0.0 ;
+        int choix;
+        float nouveau_poids;
 
         switch (etat_bouton)
         {
@@ -382,46 +433,79 @@ void Graph::update()
         break;
 
         case 3:
-         /*std::cout << "quel sommet voulez vous supprimer ?" << std::endl;
-        std::cin >> sommet;
-            for(unsigned int i = 0; i< m_areteAff.size();i++)
-            {
-
-                if(sommet == m_areteAff[i]->GetS1()){
-                        indice=i;
-                    Detruire_Arete(indice);
-
-                    }
-                if (sommet == m_areteAff[i]->GetS2()){
-                 indice=i;
-                        Detruire_Arete(indice);
-                    }
-            }*/
             std::cout << "quel arrête voulez vous détruire" << std::endl;
             std::cout << "sommet 1" << std::endl;
             std::cin >> s1;
             std::cout << "sommet 2" << std::endl;
             std::cin >> s2;
              for(unsigned int i = 0; i< m_areteAff.size();i++)
-        {
+            {
             if(s1 == m_areteAff[i]->GetS1() && s2 == m_areteAff[i]->GetS2()){
             test_remove_edge(m_areteAff[i]->GetIndice());
             Detruire_Arete(i);
             }
         }
+
         /*for(unsigned int i=0;i<m_areteAff.size();i++){
                 std::cout << m_areteAff[i]->m_s1 << std::endl << m_areteAff[i]->m_s2 << std::endl << m_areteAff[i]->m_indice << std::endl << m_areteAff[i]->m_poids << std::endl;
             }*/
 
         etat_bouton = 0;
-
+        //couleurtest(etatt);
         break;
 
-        }
 
+        case 6:
+        std::cout<<"Jeune, que veux-tu modifier dans ton superbe graphe (Modifier la population d'une espece / la capacite de portage" << std::endl;
+        std::cin>>choix;
+            if (choix==1)
+            {
+                std::cout<<"Qelle espece te demange ? "<<std::endl;
+                std::cin>>s1;
+                std::cout<<"L'espece est peuple de "<<m_sommet[s1]->m_population<< " animaux"<<std::endl;
+                std::cin>>s2;
+                m_sommet[s1]->m_population = s2;
+                std::cout<<"L'espece est peuple de "<<m_sommet[s1]->m_population<< " animaux"<<std::endl;
+
+                }
+
+            else if (choix==2)
+            {
+                std::cout<<"Qelle capacité de portage te demange ? "<<std::endl;
+                std::cin>>s1;
+                std::cin>>s2;
+                for (unsigned int i=0; i<m_areteAff.size();i++)
+                {
+                    if (s1== m_areteAff[i]->m_s1 && s2==m_areteAff[i]->m_s2 )
+                    {
+                       std::cout<<"La capacité entre ces especes est de "<< m_areteAff[i]->m_poids/100<< "%"<<std::endl;
+                       indice=i;
+                       std::cin >>nouveau_poids;
+                       m_areteAff[indice]->m_poids=nouveau_poids;
+                       std::cout<<"BRAVO, La capacité entre ces especes est maintenat de "<< m_areteAff[i]->m_poids/100<< "%"<<std::endl;
+                    }
+                    //else std::cout<<"Larete n'existe pas. Essayons ensemble"<<std::endl;
+
+                }
+
+            }
+
+        etat_bouton = 0;
+        break;
+    }
+  // Clock();
 }
 
-
+void Graph::couleurtest()
+{
+    for(unsigned int i = 0; i<m_areteAff.size();i++)
+    {
+        if(m_areteAff[i]->GetIndice()==0)
+        {
+            etatt = 2;
+        }
+    }
+}
 std::vector<Arete*> Graph :: Detruire_Arete(int indice)
 {
     m_areteAff.erase( m_areteAff.begin()+indice);
@@ -451,15 +535,6 @@ void Graph::test_remove_edge(int eidx)
     if (m_interface && remed.m_interface)
 
     {
-
-        /// Ne pas oublier qu'on a fait ça à l'ajout de l'arc :
-
-        /* EdgeInterface *ei = new EdgeInterface(m_vertices[id_vert1], m_vertices[id_vert2]); */
-
-        /* m_interface->m_main_box.add_child(ei->m_top_edge);  */
-
-        /* m_edges[idx] = Edge(weight, ei); */
-
         /// Le new EdgeInterface ne nécessite pas de delete car on a un shared_ptr
 
         /// Le Edge ne nécessite pas non plus de delete car on n'a pas fait de new (sémantique par valeur)
@@ -487,13 +562,7 @@ void Graph::test_remove_edge(int eidx)
 
     /// Le Edge ne nécessite pas non plus de delete car on n'a pas fait de new (sémantique par valeur)
 
-    /// Il suffit donc de supprimer l'entrée de la map pour supprimer à la fois l'Edge et le EdgeInterface
-
-    /// mais malheureusement ceci n'enlevait pas automatiquement l'interface top_edge en tant que child de main_box !
-
     m_edges.erase( eidx );
-
-
 
     /// Tester la cohérence : nombre d'arc entrants et sortants des sommets 1 et 2
 
@@ -502,8 +571,6 @@ void Graph::test_remove_edge(int eidx)
     std::cout << m_vertices[remed.m_to].m_in.size() << " " << m_vertices[remed.m_to].m_out.size() << std::endl;
 
     std::cout << m_edges.size() << std::endl;
-
-
 
 }
 
@@ -542,4 +609,134 @@ void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weig
     m_interface->m_main_box.add_child(ei->m_top_edge);
     m_edges[idx] = Edge(weight, ei);
 }
+
+int Graph::Clock()
+{
+
+    i=i+0.05;
+    if (i> 1){
+        std::cout<<temps;
+        i=0;
+        temps+=1;
+     for(unsigned int i=0; i<m_sommet.size();i++){
+         m_sommet[i]->m_population=Calcul_pop(i);
+     }
+     std::cout<<"Il s'est passe " << temps << " ans dans notre univers"<<std::endl;
+    }
+    // std::cout<<"WELL DONE everyone is dead !"<< std::endl;
+    return temps;
+}
+
+void Graph::Afficher_temps(int t)
+{
+    std::cout<<"Il s'est passe " << t << " ans dans notre univers"<<std::endl;
+}
+
+std::vector<Sommet*> Graph :: Decrementation_poids(int indice){
+    for (auto elem : m_sommet){
+        elem->Decre_pop();
+    }
+    return m_sommet;
+}
+
+float Graph:: Calcul_pop(int s1)
+{
+    float r=0.05; // A modifier pour ralentir la mort des especes !!!!!!!
+    int Coeff=Calcul_K(s1);
+    double N=m_sommet[s1]->GetPopulation()+r*(m_sommet[s1]->GetPopulation()*(1-(m_sommet[s1]->GetPopulation()/Coeff)));
+    if (N<0){
+        N=0;
+        compteur++;
+        for (unsigned int i=0; i< m_areteAff.size();i++)
+            {
+            if(s1== m_areteAff[i]->GetS1()){
+                    int indice=i;
+                    Detruire_Arete(indice);
+                }
+            if (s1 == m_areteAff[i]->GetS2()){
+                int indice=i;
+                Detruire_Arete(indice);
+                }
+            }
+        std::cout<<"Malheuresement, les "<<m_sommet[s1]->m_nom<< " ont ete extermine. Dommage"<< std::endl;
+         if (N==0 && m_areteAff.size()==1){
+            std::cout<<"Malheuresement, la derniere espece "<<m_sommet[s1]->m_nom<< "s'est extincte. Dommage"<< std::endl;
+    }
+
+    }
+    else std::cout<<"Enjoying the pleasure of life"<<std::endl;
+    return N;
+}
+
+float Graph::Calcul_K (int s1){
+
+    float k=1;
+    std::vector<Arete*> test;
+    for (auto elem : m_areteAff){
+     if (elem->GetS1()== s1)
+        test.push_back(elem);
+     }
+
+    for(unsigned int i=0;i<test.size();i++){
+                //std::cout << test[i]->m_indice << "-"<< test[i]->m_s1 << "-" << test[i]->m_s2 << "-" << test[i]->m_poids << std::endl;
+             k+=(m_sommet[test[i]->m_s2]->GetPopulation())*((test[i]->m_poids)/100);
+            }
+    if (k==0)k=100;
+    return k;
+}
+
+/*
+
+void Graph::Kosaraju()
+{
+        ///DFS
+        Graph g ;
+        g.DFS();
+        ///Transposée du graphe
+        g.transpo();
+        ///Reset du marquage
+        for(int i= 0; i<m_sommet.size(); i++)
+        {
+            m_sommet[i]->m_marque == false;
+            std::cout <<"Reset des marquage"<< std::endl;
+        }
+        ///DFS en partant du top de la pile
+
+
+        ///Si pas marqué DFS
+
+}
+
+
+
+void Graph::DFS()
+{
+    Graph g;
+    std::cout << "DFS : "<< std::endl;
+    std::stack <int> file;
+    std:: cout << "Par quel sommet voulez vous commencer ?" << std::endl;
+      /// POUR REALISER LES ALGORITHMES DE PARCOURS VOUS DEVEZ BIEN COMPRENDRE CES 3 LIGNES
+        for (int a=0; a<s.m_nbadjacents; ++a)
+        {
+            int ida = s.m_adjacents[a];
+            std::cout << ida << " ";
+        }
+
+        if (s.m_nbadjacents==0)
+            std::cout << "Aucun";
+std::cin >> indice ;
+    //On marque le sommet par lequel on commence
+    file.push(indice).m_marque(true);
+    while(m_sommet[sortie].m_marque != true)
+    {
+
+    }
+}
+
+void Graph::transpo()
+{
+
+
+}
+*/
 

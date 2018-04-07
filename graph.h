@@ -2,6 +2,7 @@
 #define GRAPH_H_INCLUDED
 #include "sommet.h"
 #include "arete.h"
+#include "grman/widget.h"
 
 /**************************************************************
     Ici sont proposées 3 classes fondamentales
@@ -201,6 +202,9 @@ class EdgeInterface
         // Le constructeur met en place les éléments de l'interface
         // voir l'implémentation dans le .cpp
         EdgeInterface(Vertex& from, Vertex& to);
+
+
+
 };
 
 
@@ -237,6 +241,7 @@ class Edge
         /// Voir l'implémentation Graph::update dans le .cpp
         void pre_update();
         void post_update();
+        void set_thickness(float);
 };
 
 
@@ -268,25 +273,28 @@ class GraphInterface
          grman::WidgetBox m_boite_boutons; // Sera la boite à boutons en haut à droite
         grman::WidgetButton m_bouton1;  // Sera le bouton avec le texte ADD
         grman::WidgetButton m_bouton2;  // Sera le bouton avec le texte SAVE
-        grman::WidgetButton m_bouton3;  // Sera le bouton avec le texte DELETE
-        grman::WidgetButton m_bouton4;  // Sera le bouton avec le texte SEARCH CC
-        grman::WidgetButton m_bouton5;  // Sera le bouton avec le texte SIMULATION
-        grman::WidgetButton m_bouton6;  // Sera le bouton avec le texte K-CONNEX
+        grman::WidgetButton m_bouton3;  // Sera le bouton avec le texte DELETE_A
+        grman::WidgetButton m_bouton4;  // Sera le bouton avec le texte DELETE_S
+        grman::WidgetButton m_bouton5;  // Sera le bouton avec le texte SEARCH CC
+        grman::WidgetButton m_bouton6;  // Sera le bouton avec le texte SIMULATION
+        grman::WidgetButton m_bouton7;  // Sera le bouton avec le texte K-CONNEX
         grman::WidgetText m_bouton1_label;  // Le texte ADD
         grman::WidgetText m_bouton2_label;  // Le texte Save
-        grman::WidgetText m_bouton3_label;  // Le texte DELETE
-        grman::WidgetText m_bouton4_label;  // Le texte SEARCH CC
-        grman::WidgetText m_bouton5_label;  // Le texte SIMULATION
-        grman::WidgetText m_bouton6_label;  // Le texte K-CONNEX
-
+        grman::WidgetText m_bouton3_label;  // Le texte DELETE_A
+        grman::WidgetText m_bouton4_label;  // Le texte DELETE_S
+        grman::WidgetText m_bouton5_label;  // Le texte SEARCH CC
+        grman::WidgetText m_bouton6_label;  // Le texte SIMULATION
+        grman::WidgetText m_bouton7_label;  // Le texte K-CONNEX
         // A compléter éventuellement par des widgets de décoration ou
         // d'édition (boutons ajouter/enlever ...)
+        grman::WidgetImage m_fond;
 
     public :
 
         // Le constructeur met en place les éléments de l'interface
         // voir l'implémentation dans le .cpp
         GraphInterface(int x, int y, int w, int h);
+
 };
 
 
@@ -299,6 +307,7 @@ class Graph
         int s1 = 0;
         int s2 = 0;
         int trouve = 0;
+        int etatt = 0;
 
 
         /// La "liste" des arêtes
@@ -317,25 +326,42 @@ class Graph
         std::vector <Arete*> m_areteAff;
         int ** adj =new int*[m_sommet.size()];
         std::vector< std::vector<int> > Influence;
-
+        std::vector<Sommet*> Decrementation_poids(int indice);
+        std::vector<Arete*> Detruire_Arete(int indice);
+        float perte_pop;
+        float i=0.0;
+        float Coeff;
+        int temps=0;
+        int compteur;
         /// Les constructeurs sont à compléter selon vos besoin...
         /// Ici on ne donne qu'un seul constructeur qui peut utiliser une interface
         Graph (std::string _fichier, GraphInterface *interface=nullptr) :
             fichier (_fichier), m_interface(interface)  {  }
+
          Graph (GraphInterface *interface=nullptr) :
              m_interface(interface)  {  }
 
+        /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name="", int pic_idx=0 );
         void add_interfaced_edge(int idx, int vert1, int vert2, double weight=0);
-
-       void Construire_le_graphe();
-
-       int Save_Graph();
-       std::vector<Arete*> Detruire_Arete(int indice);
-
-        /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
+        void Construire_le_graphe();
+        int Save_Graph();
         void update();
         void test_remove_edge(int eidx);
+        void set_thickness();
+        void couleurtest();
+
+        float Calcul_K (int s1);
+        float Calcul_pop(int s1);
+        int Clock();
+        void Afficher_temps(int t);
+
+        ///Méthodes pour la forte connexité
+        void Kosaraju();
+       void DFS();
+       void transpo();
+
+
 };
 
 

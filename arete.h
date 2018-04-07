@@ -9,10 +9,11 @@ class Arete
     int m_indice, m_s1, m_s2;
     float m_poids;
 
-   int GetIndice();
-   int GetS1();
-   int GetS2();
-   float GetPoids();
+    int GetIndice();
+    int GetS1();
+    int GetS2();
+    float GetPoids();
+    float Decre_poids();
 
 };
 
