@@ -286,7 +286,7 @@ class WidgetVSlider : public Widget
         double m_handle_ratio = .5;
         double m_rail_ratio = .3;
         double m_specific_padding = 2;
-        int m_rail_color;
+        int m_rail_color = GRISCLAIR;
 
         int m_handle_color = GRISSOMBRE;
 

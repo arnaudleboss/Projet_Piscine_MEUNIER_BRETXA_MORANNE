@@ -5,7 +5,7 @@
 
 class Sommet
 {
-    public:
+public:
     Sommet(int _indice, std::string _nom, float _population, float _x, float _y, int _delete);
     ~Sommet();
     std::string m_nom;

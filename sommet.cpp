@@ -1,6 +1,8 @@
 #include "Sommet.h"
 
-Sommet::Sommet(int _indice, std::string _nom, float _population, float _x, float _y, int _delete ){
+///Constructeur
+Sommet::Sommet(int _indice, std::string _nom, float _population, float _x, float _y, int _delete )
+{
     m_nom =_nom;
     m_population =_population;
     m_x=_x;
@@ -9,30 +11,39 @@ Sommet::Sommet(int _indice, std::string _nom, float _population, float _x, float
     indice=_indice;
 }
 
-Sommet::~Sommet(){
+///Destructeur
+Sommet::~Sommet()
+{
 }
 
+
+///Getteurs
 int Sommet::GetIndice()
 {
     return indice;
 }
-std::string Sommet::GetNom(){
+std::string Sommet::GetNom()
+{
     return m_nom;
 }
 
-float Sommet::GetPopulation(){
+float Sommet::GetPopulation()
+{
     return m_population;
 }
 
-float Sommet::GetX(){
-return m_x;
+float Sommet::GetX()
+{
+    return m_x;
 }
 
-float Sommet::GetY(){
-return m_y;
+float Sommet::GetY()
+{
+    return m_y;
 }
 
-float Sommet::Decre_pop (){
+float Sommet::Decre_pop ()
+{
     m_population--;
     if(m_population<0)
         m_population=0;

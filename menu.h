@@ -9,10 +9,10 @@
 class Menu
 {
 public:
-    // Image mémoire servant à mémoriser l'écran
-    BITMAP *page;
-    BITMAP *menu;
-    BITMAP *menucolli;
+
+    BITMAP *page;   //Buffer
+    BITMAP *menu;   //Image pour le menu
+    BITMAP *menucolli;  //Image de collision du menu
     int zone2;
     int red, green, blue;
     Graph g ;
